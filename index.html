@@ -6,57 +6,96 @@
   <title>Hex Background Changer</title>
   <style>
     body {
-      cursor: none; /* Hide cursor */
       margin: 0;
       height: 100vh;
       background-color: #000; /* Initial black background */
+      transition: background-color 0.3s ease;
+    }
+    
+    #colorInputArea {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
       display: flex;
       justify-content: center;
       align-items: center;
     }
-
+    
     #hexInput {
       display: none;
-      font-size: 2em;
+      font-size: 1em;
       padding: 0.5em;
-      background: none;
+      background: rgba(0, 0, 0, 0.7);
       color: white;
       border: 2px solid white;
+      border-radius: 4px;
       text-align: center;
-      width: 200px;
+      width: 80px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
-
+    
+    #colorInputArea:hover #hexInput {
+      display: block;
+      opacity: 1;
+    }
+    
     #hexInput:focus {
       outline: none;
+    }
+    
+    .current-color {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      border-radius: 4px;
+      font-family: monospace;
     }
   </style>
 </head>
 <body>
-  <input id="hexInput" type="text" placeholder="e.g. ff00ff" maxlength="6" />
-
+  <div id="colorInputArea">
+    <input id="hexInput" type="text" placeholder="hex code" maxlength="6" />
+  </div>
+  <div id="currentColor" class="current-color">#000000</div>
+  
   <script>
     const input = document.getElementById('hexInput');
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key.toLowerCase() === 'g' && input.style.display === 'none') {
-        input.style.display = 'block';
-        input.focus();
-      }
-    });
-
+    const currentColorDisplay = document.getElementById('currentColor');
+    
+    // Update color on input change
     input.addEventListener('input', () => {
       // Remove non-hex characters
       input.value = input.value.replace(/[^0-9a-fA-F]/g, '');
-
+      
       // If input is valid and complete (6 characters), change the background color
       if (input.value.length === 6) {
         const hexColor = `#${input.value}`;
+        
         // Validate if the hex code is a proper hex value
-        if (/^[0-9A-Fa-f]{6}$/i.test(input.value)) {
+        if (/^#[0-9A-Fa-f]{6}$/i.test(hexColor)) {
           document.body.style.backgroundColor = hexColor;
-        } else {
-          document.body.style.backgroundColor = '#000'; // Reset to black if invalid
+          currentColorDisplay.textContent = hexColor;
         }
+      }
+    });
+    
+    // Handle Enter key to apply color and blur input
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        input.blur();
+      }
+    });
+    
+    // Allow pressing 'g' to focus the input from anywhere
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'g') {
+        input.focus();
       }
     });
   </script>
