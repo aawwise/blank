@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hex Background Changer</title>
+  <style>
+    body {
+      cursor: none; /* Hide cursor */
+      margin: 0;
+      height: 100vh;
+      background-color: #000; /* Initial black background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #hexInput {
+      display: none;
+      font-size: 2em;
+      padding: 0.5em;
+      background: none;
+      color: white;
+      border: 2px solid white;
+      text-align: center;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+  <input id="hexInput" type="text" placeholder="e.g. ff00ff" maxlength="6" />
+
+  <script>
+    const input = document.getElementById('hexInput');
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'g' && input.style.display === 'none') {
+        input.style.display = 'block';
+        input.focus();
+      }
+    });
+
+    input.addEventListener('input', () => {
+      // Remove non-hex characters
+      input.value = input.value.replace(/[^0-9a-fA-F]/g, '');
+
+      if (input.value.length === 6) {
+        document.body.style.backgroundColor = `#${input.value}`;
+      }
+    });
+  </script>
+</body>
+</html>
