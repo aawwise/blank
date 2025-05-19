@@ -46,27 +46,17 @@
       outline: none;
     }
     
-    .current-color {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      padding: 10px;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      border-radius: 4px;
-      font-family: monospace;
-    }
+    /* Removed current-color display */
   </style>
 </head>
 <body>
   <div id="colorInputArea">
     <input id="hexInput" type="text" placeholder="hex code" maxlength="6" />
   </div>
-  <div id="currentColor" class="current-color">#000000</div>
+  <!-- Removed the current color display div -->
   
   <script>
     const input = document.getElementById('hexInput');
-    const currentColorDisplay = document.getElementById('currentColor');
     
     // Update color on input change
     input.addEventListener('input', () => {
@@ -80,7 +70,6 @@
         // Validate if the hex code is a proper hex value
         if (/^#[0-9A-Fa-f]{6}$/i.test(hexColor)) {
           document.body.style.backgroundColor = hexColor;
-          currentColorDisplay.textContent = hexColor;
         }
       }
     });
