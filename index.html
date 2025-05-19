@@ -25,6 +25,10 @@
       text-align: center;
       width: 200px;
     }
+
+    #hexInput:focus {
+      outline: none;
+    }
   </style>
 </head>
 <body>
@@ -44,8 +48,15 @@
       // Remove non-hex characters
       input.value = input.value.replace(/[^0-9a-fA-F]/g, '');
 
+      // If input is valid and complete (6 characters), change the background color
       if (input.value.length === 6) {
-        document.body.style.backgroundColor = `#${input.value}`;
+        const hexColor = `#${input.value}`;
+        // Validate if the hex code is a proper hex value
+        if (/^[0-9A-Fa-f]{6}$/i.test(input.value)) {
+          document.body.style.backgroundColor = hexColor;
+        } else {
+          document.body.style.backgroundColor = '#000'; // Reset to black if invalid
+        }
       }
     });
   </script>
